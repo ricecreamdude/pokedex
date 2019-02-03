@@ -6,6 +6,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import H1 from 'components/H1';
+import PokemonData from 'components/Pokemon';
 import messages from './messages';
 
 export default function Pokedex() {
@@ -14,6 +15,7 @@ export default function Pokedex() {
       <H1>
         <FormattedMessage {...messages.header} />
       </H1>
+      <PokemonData />
     </article>
   );
 }
