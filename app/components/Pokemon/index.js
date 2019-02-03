@@ -5,6 +5,7 @@ Use this file to compose Pokemon data biography
 */
 
 import React from 'react';
+import PokeType from '../PokeType';
 
 class PokemonData extends React.Component {
   constructor(props) {
@@ -16,8 +17,10 @@ class PokemonData extends React.Component {
     };
   }
 
+  // Runs right after component mounts onto app.  Usually used to control
+  // API requests. Returns a promise
   componentDidMount() {
-    fetch('https://pokeapi.co/api/v2/pokemon/charmander/')
+    fetch('https://pokeapi.co/api/v2/pokemon/jigglypuff/')
       .then(res => res.json())
       .then(
         result => {
@@ -46,8 +49,20 @@ class PokemonData extends React.Component {
     if (!isLoaded) {
       return <div>Loading...</div>;
     }
+
+    // Only second type if it exists
+    const primaryType = <PokeType type={data.types[0].type.name} />;
+    let secondaryType;
+    if (data.types[1]) {
+      secondaryType = <PokeType type={data.types[1].type.name} />;
+    } else {
+      secondaryType = '';
+    }
+
     return (
       <div>
+        {primaryType}
+        {secondaryType}
         <ul>
           <li>Pokemon Data retrieved successfully</li>
           {/* Pokemon Name */}
