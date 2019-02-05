@@ -1,32 +1,41 @@
 /*
 
-Use this file to compose Pokemon data biography
+Compose Pokemon data biography information and handle API calls
 
 */
 
 import React from 'react';
 import PokeType from '../PokeType';
+import PokeSearch from '../PokeSearch';
 
-class PokemonData extends React.Component {
+class Pokemon extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
       data: [],
+      curPokemon: 'bulbasaur'
     };
   }
 
   // Runs right after component mounts onto app.  Usually used to control
   // API requests. Returns a promise
   componentDidMount() {
-    fetch('https://pokeapi.co/api/v2/pokemon/jigglypuff/')
+    this.loadPokemon(this.state.curPokemon)
+  }
+
+  //Make sure to pass NAME as STRING here
+  loadPokemon(name){
+    let url = 'https://pokeapi.co/api/v2/pokemon/' + name
+    fetch(url)
       .then(res => res.json())
       .then(
         result => {
           this.setState({
             isLoaded: true,
             data: result,
+            curPokemon: result.name
           });
         },
         // Note: it's important to handle errors here
@@ -39,6 +48,7 @@ class PokemonData extends React.Component {
           });
         },
       );
+
   }
 
   render() {
@@ -49,7 +59,6 @@ class PokemonData extends React.Component {
     if (!isLoaded) {
       return <div>Loading...</div>;
     }
-
     // Only second type if it exists
     const primaryType = <PokeType type={data.types[0].type.name} />;
     let secondaryType;
@@ -60,11 +69,12 @@ class PokemonData extends React.Component {
     }
 
     return (
+
       <div>
+        <PokeSearch loadPokemon={this.loadPokemon.bind(this)}/>
         {primaryType}
         {secondaryType}
         <ul>
-          <li>Pokemon Data retrieved successfully</li>
           {/* Pokemon Name */}
           <li> Pokemon Name: {data.name} </li>
           {/* Pokemon Type(s) */}
@@ -92,4 +102,4 @@ class PokemonData extends React.Component {
   }
 }
 
-export default PokemonData;
+export default Pokemon;
