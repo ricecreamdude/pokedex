@@ -3,7 +3,6 @@
 Compose Pokemon data biography information and handle API calls
 
 */
-
 import React from 'react';
 import PokeType from '../PokeType';
 import PokeSearch from '../PokeSearch';
@@ -15,19 +14,19 @@ class Pokemon extends React.Component {
       error: null,
       isLoaded: false,
       data: [],
-      curPokemon: 'bulbasaur'
+      curPokemon: 'bulbasaur',
     };
   }
 
   // Runs right after component mounts onto app.  Usually used to control
   // API requests. Returns a promise
   componentDidMount() {
-    this.loadPokemon(this.state.curPokemon)
+    this.loadPokemon(this.state.curPokemon);
   }
 
-  //Make sure to pass NAME as STRING here
-  loadPokemon(name){
-    let url = 'https://pokeapi.co/api/v2/pokemon/' + name
+  // Make sure to pass NAME as STRING here
+  loadPokemon(name) {
+    const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
     fetch(url)
       .then(res => res.json())
       .then(
@@ -35,7 +34,7 @@ class Pokemon extends React.Component {
           this.setState({
             isLoaded: true,
             data: result,
-            curPokemon: result.name
+            curPokemon: result.name,
           });
         },
         // Note: it's important to handle errors here
@@ -48,7 +47,6 @@ class Pokemon extends React.Component {
           });
         },
       );
-
   }
 
   render() {
@@ -69,9 +67,8 @@ class Pokemon extends React.Component {
     }
 
     return (
-
       <div>
-        <PokeSearch loadPokemon={this.loadPokemon.bind(this)}/>
+        <PokeSearch loadPokemon={this.loadPokemon.bind(this)} />
         {primaryType}
         {secondaryType}
         <ul>

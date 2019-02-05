@@ -4,29 +4,16 @@ styled HTML elements with appropriate color
 This will be used to provide information for:
     Pokemon's primary and secondary Types
     Pokemon's type weakness/strengths in battle
+
+Try and learn if this is the proper way to code this
 */
-let lg = (str) => console.log('File PokeType: ' + str);
 import React from 'react';
-import types from './types';
+import getType from './getTypeData';
 
 class PokeType extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      data: []
-    };
-  }
-
-  render(props) {
-    if (this.error) {
-      lg('this.error')
-      return <div> ERR </div>;
-    }
-    const type = types(this.props.type);
-    // find color based in array
-    return <div style={{ backgroundColor: type.color }}>{type.text}</div>;
+  render() {
+    const type = getType(this.props.type);
+    return <div style={{ backgroundColor: type.color }}>{type.name}</div>;
   }
 }
 
