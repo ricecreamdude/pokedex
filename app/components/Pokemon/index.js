@@ -6,6 +6,7 @@ Compose Pokemon data biography information and handle API calls
 import React from 'react';
 import PokeType from '../PokeType';
 import PokeSearch from '../PokeSearch';
+import PokeStats from '../PokeStats';
 
 class Pokemon extends React.Component {
   constructor(props) {
@@ -82,6 +83,8 @@ class Pokemon extends React.Component {
           </li>
           {/* Pokemon Stats */}
           Stats
+          <PokeStats stats={data.stats} />
+          {/*
           <ul>
             <li>HP: {data.stats[5].base_stat}</li>
             <li>Attack: {data.stats[4].base_stat}</li>
@@ -90,6 +93,7 @@ class Pokemon extends React.Component {
             <li>Sp Atk: {data.stats[2].base_stat}</li>
             <li>Sp Def: {data.stats[1].base_stat}</li>
           </ul>
+          */}
           {/* Pokemon Description Title */}
           <li> Pokemond ID: #{data.id} </li>
           {/* Pokemon Description */}
