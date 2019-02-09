@@ -10,6 +10,6 @@ export const scope = 'boilerplate.containers.PokedexPage';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'Welcome to the Pokedex.',
+    defaultMessage: 'Pokedex.com',
   },
 });

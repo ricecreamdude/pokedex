@@ -7,6 +7,9 @@ import React from 'react';
 import PokeType from '../PokeType';
 import PokeSearch from '../PokeSearch';
 import PokeStats from '../PokeStats';
+import PokeBasic from '../PokeBasic';
+
+import getType from '../PokeType/getTypeData';
 
 class Pokemon extends React.Component {
   constructor(props) {
@@ -51,6 +54,28 @@ class Pokemon extends React.Component {
   }
 
   render() {
+    let styles = {
+      pokemonTitleContainer: {
+        fontSize: "24px",
+        fontWeight: "bold",
+        textAlign: "center",
+        width: "100%",
+        height: "60px",
+        lineHeight: "60px",
+        backgroundColor: "rgb(120, 200, 80)",
+
+      },
+      pokemonTitle: {
+        verticalAlign: "center",
+        display: "inline-block",
+        lineHeight: "normal",
+        color: "white"
+      },
+      pokemonContainer: {
+        margin: "15px 15px"
+      }
+    };
+
     const { error, isLoaded, data } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -59,45 +84,30 @@ class Pokemon extends React.Component {
       return <div>Loading...</div>;
     }
     // Only second type if it exists
-    const primaryType = <PokeType type={data.types[0].type.name} />;
+
+    //Move all this to PokeType.js, return one or two components
+    let primaryType = <PokeType type={data.types[0].type.name} />;
     let secondaryType;
     if (data.types[1]) {
-      secondaryType = <PokeType type={data.types[1].type.name} />;
+      secondaryType = <PokeType type={data.types[0].type.name} />;
+      primaryType = <PokeType type={data.types[1].type.name} />;
     } else {
       secondaryType = '';
     }
 
+    //TO DO - Make Pokemon name a component
+    //TO DO - Fetch pokemon color codes from this file and pass them down
+    //props data
     return (
       <div>
         <PokeSearch loadPokemon={this.loadPokemon.bind(this)} />
-        {primaryType}
-        {secondaryType}
-        <ul>
-          {/* Pokemon Name */}
-          <li> Pokemon Name: {data.name} </li>
-          {/* Pokemon Type(s) */}
-          <li> Pokemon Type: {data.types[0].type.name} </li>
-          {/* Pokemon Sprite */}
-          <li>
-            <img src={data.sprites.front_default} alt="" />
-          </li>
-          {/* Pokemon Stats */}
-          Stats
+        <div style={styles.pokemonTitleContainer}>
+          <span style={styles.pokemonTitle}>{data.name.charAt(0).toUpperCase() + data.name.slice(1)}</span>
+        </div>
+        <div style={styles.pokemonContainer}>
+          <PokeBasic data={this.state.data}/>
           <PokeStats stats={data.stats} />
-          {/*
-          <ul>
-            <li>HP: {data.stats[5].base_stat}</li>
-            <li>Attack: {data.stats[4].base_stat}</li>
-            <li>Defense: {data.stats[3].base_stat}</li>
-            <li>Speed: {data.stats[0].base_stat}</li>
-            <li>Sp Atk: {data.stats[2].base_stat}</li>
-            <li>Sp Def: {data.stats[1].base_stat}</li>
-          </ul>
-          */}
-          {/* Pokemon Description Title */}
-          <li> Pokemond ID: #{data.id} </li>
-          {/* Pokemon Description */}
-        </ul>
+        </div>
       </div>
     );
   }

@@ -11,9 +11,27 @@ import React from 'react';
 import getType from './getTypeData';
 
 class PokeType extends React.Component {
+
   render() {
-    const type = getType(this.props.type);
-    return <div style={{ backgroundColor: type.color }}>{type.name}</div>;
+
+    let type = getType(this.props.type);
+
+    var typeStyles = {
+      pokeType: {
+        backgroundColor: type.color,
+        float: "left",
+        width: "90px",
+        fontSize: "1.0em",
+        color: "white",
+        fontWeight: "bold",
+        padding: "1px 0",
+        textAlign: "center",
+        marginRight: "5px"
+      }
+    }
+    return (
+      <div style={typeStyles.pokeType}>{type.name.toUpperCase()}</div>
+    )
   }
 }
 
