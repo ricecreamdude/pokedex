@@ -9,6 +9,10 @@ import PokeSearch from '../PokeSearch';
 import PokeStats from '../PokeStats';
 import PokeBasic from '../PokeBasic';
 
+import PokeTitle from './title';
+
+import Container from 'react-bootstrap/Container'
+
 import getType from '../PokeType/getTypeData';
 
 class Pokemon extends React.Component {
@@ -99,24 +103,8 @@ class Pokemon extends React.Component {
 
   render() {
     let styles = {
-      pokemonTitleContainer: {
-        fontSize: "24px",
-        fontWeight: "bold",
-        textAlign: "center",
-        width: "100%",
-        height: "60px",
-        lineHeight: "60px",
-        backgroundColor: this.state.backgroundColor,
-
-      },
-      pokemonTitle: {
-        verticalAlign: "center",
-        display: "inline-block",
-        lineHeight: "normal",
-        color: "white"
-      },
       pokemonContainer: {
-        margin: "15px 15px"
+        margin: "15px 0px"
       }
     };
 
@@ -141,16 +129,20 @@ class Pokemon extends React.Component {
     //TO DO - Make Pokemon name a component
     //TO DO - Fetch pokemon color codes from this file and pass them down
     //props data
+
+    // <PokeTitle backgroundColor={this.state.backgroundColor} title={data.name.charAt(0).toUpperCase() + data.name.slice(1)} />
+
     return (
       <div>
         <PokeSearch loadPokemon={this.getBasicData.bind(this)} />
-        <div style={styles.pokemonTitleContainer}>
-          <span style={styles.pokemonTitle}>{data.name.charAt(0).toUpperCase() + data.name.slice(1)}</span>
-        </div>
-        <div style={styles.pokemonContainer}>
+        <PokeTitle title={data.name.charAt(0).toUpperCase() + data.name.slice(1)} backgroundColor={this.state.backgroundColor}/>
+        <Container style={styles.pokemonContainer}>
           <PokeBasic data={this.state.data} speciesData={this.state.speciesData} typeData={this.state.typeData}/>
+        </Container>
+        <PokeTitle title="STATS" backgroundColor={this.state.backgroundColor}/>
+        <Container style={styles.pokemonContainer}>
           <PokeStats stats={data.stats} />
-        </div>
+        </Container>
       </div>
     );
   }
