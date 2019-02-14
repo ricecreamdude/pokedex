@@ -25,7 +25,6 @@ class PokeType extends React.Component {
       textAlign: "center",
       marginRight: "5px"
     }
-    console.log('POKETYPE PROPS', this.props);
     return (
       <div style={typeStyle}>{this.props.name.toUpperCase()}</div>
     )
