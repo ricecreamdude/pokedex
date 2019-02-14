@@ -20,7 +20,8 @@ class Pokemon extends React.Component {
       data: [],
       curPokemon: 'bulbasaur',
       typeData: [],
-      speciesData: []
+      speciesData: [],
+      backgroundColor: 'rgb(120, 200, 80)'
     };
   }
 
@@ -73,7 +74,8 @@ class Pokemon extends React.Component {
     }
 
     this.setState({
-      typeData: typeData
+      typeData: typeData,
+      backgroundColor: typeData[0].color
     })
   }
 
@@ -105,7 +107,7 @@ class Pokemon extends React.Component {
         width: "100%",
         height: "60px",
         lineHeight: "60px",
-        backgroundColor: "rgb(120, 200, 80)",
+        backgroundColor: this.state.backgroundColor,
 
       },
       pokemonTitle: {
