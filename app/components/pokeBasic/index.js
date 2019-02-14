@@ -63,10 +63,6 @@ class PokeBasic extends React.Component {
 
   render(){
 
-    console.log('POKEBASIC this props basicData:', this.props.data)
-    console.log('POKEBASIC this props speciesData:', this.props.speciesData)
-    console.log('POKEBASIC this props typeData:', this.props.typeData)
-
     return(
       <div>
         {/*Break this out into its own component*/}
