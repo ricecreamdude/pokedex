@@ -37,6 +37,12 @@ export default function App() {
         titleTemplate="%s - React.js Boilerplate"
         defaultTitle="React.js Boilerplate"
       >
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous"
+        />
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
       <Header />
@@ -44,7 +50,6 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/features" component={FeaturePage} />
         <Route path="/pokedex" component={PokedexPage} />
-
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />
