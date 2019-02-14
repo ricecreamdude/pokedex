@@ -85,7 +85,6 @@ class Pokemon extends React.Component {
   // so we must typeData as part of application state
   getTypeData(typeArr){
     let typeData = []
-
     //For some reason in pokemon with many types, primary type listed as 2nd
     //type in types array so we are assigning appropriately here
     if (typeArr[1]){
@@ -97,8 +96,6 @@ class Pokemon extends React.Component {
 
     return typeData;
   }
-
-
 
   render() {
     let styles = {
@@ -130,8 +127,8 @@ class Pokemon extends React.Component {
     if (!isLoaded) {
       return <div>Loading...</div>;
     }
-    // Only second type if it exists
 
+    // Only second type if it exists
     //Move all this to PokeType.js, return one or two components
     let primaryType = <PokeType type={data.types[0].type.name} />;
     let secondaryType;
@@ -141,9 +138,6 @@ class Pokemon extends React.Component {
     } else {
       secondaryType = '';
     }
-
-    console.log('POKEMON this.state', this.state)
-
     //TO DO - Make Pokemon name a component
     //TO DO - Fetch pokemon color codes from this file and pass them down
     //props data
