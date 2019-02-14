@@ -4,6 +4,7 @@ import PokeType from '../PokeType'
 
 
 class PokeBasic extends React.Component {
+
   constructor(props){
     super(props);
     this.state = {
@@ -21,7 +22,6 @@ class PokeBasic extends React.Component {
       .then(res => res.json())
       .then(
         result => {
-          console.log('pokeBasic Species JSON:',result);
           this.setState({
             genus: result.genera[2].genus,
             flavorText: result.flavor_text_entries[1].flavor_text
@@ -37,12 +37,36 @@ class PokeBasic extends React.Component {
           });
         },
       );
+  }
 
-        <PokeType type={this.state.types[0].type.name}/>
+  getBasicData(url){
+    let data;
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        res => {
+          data = res;
+          return data;
+          },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        error => {
+          this.setState({
+            isLoaded: true,
+            error,
+          });
+        },
+      );
 
   }
 
   render(){
+
+    console.log('POKEBASIC this props basicData:', this.props.data)
+    console.log('POKEBASIC this props speciesData:', this.props.speciesData)
+    console.log('POKEBASIC this props typeData:', this.props.typeData)
+
     return(
       <div>
         {/*Break this out into its own component*/}
