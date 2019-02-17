@@ -1,14 +1,12 @@
 /*
-
 Compose Pokemon data biography information and handle API calls
-
 */
+
 import React from 'react';
 import PokeType from '../PokeType';
 import PokeSearch from '../PokeSearch';
 import PokeStats from '../PokeStats';
 import PokeBasic from '../PokeBasic';
-
 import PokeTitle from './title';
 
 import Container from 'react-bootstrap/Container'
@@ -25,7 +23,8 @@ class Pokemon extends React.Component {
       curPokemon: 'bulbasaur',
       typeData: [],
       speciesData: [],
-      backgroundColor: 'rgb(120, 200, 80)'
+      backgroundColor: 'rgb(120, 200, 80)',
+      statsData: []
     };
   }
 
@@ -43,11 +42,6 @@ class Pokemon extends React.Component {
       .then(
         result => {
           this.getTypeData(result.types)
-          // this.setState({
-          //   isLoaded: true,
-          //   data: result,
-          //   curPokemon: result.name,
-          // });
           //Chains promise so getSpeciesData works async
           return this.getSpeciesData(result.id, result);
         },
@@ -72,9 +66,17 @@ class Pokemon extends React.Component {
             data: basicData,
             curPokemon: basicData.name,
             typeData: typeData,
-            backgroundColor: typeData[0].color
-            })
-          },
+            backgroundColor: typeData[0].color,
+            statsData: {
+              hp: basicData.stats[5],
+              atk: basicData.stats[4],
+              def: basicData.stats[3],
+              spd: basicData.stats[0],
+              spAtk: basicData.stats[2],
+              spDef: basicData.stats[1],
+            }
+          })
+        },
         error => {
           this.setState({
             isLoaded: true,
@@ -126,11 +128,6 @@ class Pokemon extends React.Component {
     } else {
       secondaryType = '';
     }
-    //TO DO - Make Pokemon name a component
-    //TO DO - Fetch pokemon color codes from this file and pass them down
-    //props data
-
-    // <PokeTitle backgroundColor={this.state.backgroundColor} title={data.name.charAt(0).toUpperCase() + data.name.slice(1)} />
 
     return (
       <div>

@@ -1,32 +1,25 @@
+/*
+  Displays Pokmeon stats and sets color based on value.
+  Inspiration: https://pokemondb.net/pokedex/bulbasaur
+*/
 import React from 'react';
 import PokeStatsItem from './PokeStatsItem.js';
 
+import Container from 'react-bootstrap/Container';
+
 class PokeStats extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      stats: {
-        hp: props.stats[5],
-        atk: props.stats[4],
-        def: props.stats[3],
-        spd: props.stats[0],
-        spAtk: props.stats[2],
-        spDef: props.stats[1],
-      },
-    };
-  }
 
   render() {
+
     return (
-      <div>
-        <h3> STATS </h3>
-        <PokeStatsItem stats={this.state.stats.hp} /> {/* HP */}
-        <PokeStatsItem stats={this.state.stats.atk} /> {/* ATK */}
-        <PokeStatsItem stats={this.state.stats.def} /> {/* DEF */}
-        <PokeStatsItem stats={this.state.stats.spd} /> {/* SPD */}
-        <PokeStatsItem stats={this.state.stats.spAtk} /> {/* SPATK */}
-        <PokeStatsItem stats={this.state.stats.spDef} /> {/* SPDEF */}
-      </div>
+      <Container>
+        <PokeStatsItem title="HP" stats={this.props.stats[0]} /> {/* HP */}
+        <PokeStatsItem title="Attack" stats={this.props.stats[1]} /> {/* ATK */}
+        <PokeStatsItem title="Defense" stats={this.props.stats[2]} /> {/* DEF */}
+        <PokeStatsItem title="Speed" stats={this.props.stats[3]} /> {/* SPD */}
+        <PokeStatsItem title="Sp. Atk" stats={this.props.stats[4]} /> {/* SPATK */}
+        <PokeStatsItem title="Sp .Def" stats={this.props.stats[5]} /> {/* SPDEF */}
+      </Container>
     );
   }
 }
