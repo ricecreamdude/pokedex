@@ -3,13 +3,13 @@ Compose Pokemon data biography information and handle API calls
 */
 
 import React from 'react';
+import Container from 'react-bootstrap/Container';
+
 import PokeType from '../PokeType';
 import PokeSearch from '../PokeSearch';
 import PokeStats from '../PokeStats';
 import PokeBasic from '../PokeBasic';
 import PokeTitle from './title';
-
-import Container from 'react-bootstrap/Container'
 
 import getType from '../PokeType/getTypeData';
 
@@ -42,7 +42,7 @@ class Pokemon extends React.Component {
       .then(
         result => {
           this.getTypeData(result.types)
-          //Chains promise so getSpeciesData works async
+          // Chains promise so getSpeciesData works async
           return this.getSpeciesData(result.id, result);
         },
         error => {
@@ -84,16 +84,16 @@ class Pokemon extends React.Component {
           });
         },
       );
-    }
+  }
 
-  //Uses Type fetching file to create type data array.  A pokemon's primary type
+  // Uses Type fetching file to create type data array.  A pokemon's primary type
   // (type[0]) is used to determine color scheme of many components of the app
   // so we must typeData as part of application state
   getTypeData(typeArr){
     let typeData = []
-    //For some reason in pokemon with many types, primary type listed as 2nd
-    //type in types array so we are assigning appropriately here
-    if (typeArr[1]){
+    // For some reason in pokemon with many types, primary type listed as 2nd
+    // type in types array so we are assigning appropriately here
+    if (typeArr[1]) {
       typeData[0] = getType(typeArr[1].type.name)
       typeData[1] = getType(typeArr[0].type.name)
     } else {
@@ -104,10 +104,10 @@ class Pokemon extends React.Component {
   }
 
   render() {
-    let styles = {
+    const styles = {
       pokemonContainer: {
-        margin: "15px 0px"
-      }
+        margin: '15px 0px',
+      },
     };
 
     const { error, isLoaded, data } = this.state;
@@ -118,28 +118,53 @@ class Pokemon extends React.Component {
       return <div>Loading...</div>;
     }
 
-    // Only second type if it exists
-    //Move all this to PokeType.js, return one or two components
-    let primaryType = <PokeType type={data.types[0].type.name} />;
-    let secondaryType;
-    if (data.types[1]) {
-      secondaryType = <PokeType type={data.types[0].type.name} />;
-      primaryType = <PokeType type={data.types[1].type.name} />;
-    } else {
-      secondaryType = '';
-    }
+    console.log('Pokemon Data: Data:', this.state.data);
+    console.log('Pokemon Data: Species Data:', this.state.speciesData);
+
 
     return (
       <div>
         <PokeSearch loadPokemon={this.getBasicData.bind(this)} />
-        <PokeTitle title={data.name.charAt(0).toUpperCase() + data.name.slice(1)} backgroundColor={this.state.backgroundColor}/>
+        <PokeTitle
+          title={data.name.charAt(0).toUpperCase() + data.name.slice(1)}
+          backgroundColor={this.state.backgroundColor}
+        />
         <Container style={styles.pokemonContainer}>
-          <PokeBasic data={this.state.data} speciesData={this.state.speciesData} typeData={this.state.typeData}/>
+          <PokeBasic
+            data={this.state.data}
+            speciesData={this.state.speciesData}
+            typeData={this.state.typeData}
+          />
         </Container>
-        <PokeTitle title="STATS" backgroundColor={this.state.backgroundColor}/>
+        <PokeTitle title="STATS" backgroundColor={this.state.backgroundColor} />
         <Container style={styles.pokemonContainer}>
           <PokeStats stats={data.stats} />
         </Container>
+        <PokeTitle
+          title="PROFILE"
+          backgroundColor={this.state.backgroundColor}
+        />
+        <Container style={styles.pokemonContainer}>
+        </Container>
+        <PokeTitle
+          title="DAMAGE WHEN ATTACKED"
+          backgroundColor={this.state.backgroundColor}
+        />
+        <Container style={styles.pokemonContainer}>
+        </Container>
+        <PokeTitle
+          title="EVOLUTIONS"
+          backgroundColor={this.state.backgroundColor}
+        />
+        <Container style={styles.pokemonContainer}>
+        </Container>
+        <PokeTitle
+          title="MOVES"
+          backgroundColor={this.state.backgroundColor}
+        />
+        <Container style={styles.pokemonContainer}>
+        </Container>
+
       </div>
     );
   }

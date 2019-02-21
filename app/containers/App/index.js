@@ -47,9 +47,8 @@ export default function App() {
       </Helmet>
       <Header />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={PokedexPage} />
         <Route path="/features" component={FeaturePage} />
-        <Route path="/pokedex" component={PokedexPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />
