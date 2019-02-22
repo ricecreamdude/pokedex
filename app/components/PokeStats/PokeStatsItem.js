@@ -1,23 +1,54 @@
 import React from 'react';
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import colormap from 'colormap'
+
 
 class PokeStatsItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.stats,
-      name: props.stats.stat.name,
-      value: props.stats.stat.base_stat,
-      color: "",
-      percent: "",
-    };
+
+  assignColor(stat){
+    return Math.ceil(stat/180*100/2);
   }
 
   render() {
+    //We are creating a color map for statBar render.
+    let colorMap = colormap({
+        colormap: 'cool',
+        format: 'hex',
+        nshades: 50,
+        alpha: 1
+    })
+
+    let styles = {
+      statName:{
+        textAlign: "right",
+        fontWeight: "bold",
+      },
+      statBar:{
+        backgroundColor: colorMap[this.assignColor(this.props.stats.base_stat)],
+        width: this.props.stats.base_stat/180*100 +"%",
+        height: "20px",
+        margin: "1px 0"
+
+      }
+    }
+
+
     return (
-      <div>
-        {' '}
-        <b>{this.state.data.stat.name}</b> {this.state.data.base_stat}
-      </div>
+      <Row>
+        <Col xs={2} style={styles.statName}>
+          {this.props.title}
+        </Col>
+        <Col xs={1}>
+          {this.props.stats.base_stat}
+        </Col>
+        <Col xs={7}>
+          <div style={styles.statBar}></div>
+        </Col>
+        <Col xs={2}>
+          MAX
+        </Col>
+      </Row>
     );
   }
 }
