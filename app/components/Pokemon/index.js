@@ -9,7 +9,10 @@ import PokeType from '../PokeType';
 import PokeSearch from '../PokeSearch';
 import PokeStats from '../PokeStats';
 import PokeBasic from '../PokeBasic';
+import PokeProfile from '../PokeProfile';
+
 import PokeTitle from './title';
+
 
 import getType from '../PokeType/getTypeData';
 
@@ -145,6 +148,10 @@ class Pokemon extends React.Component {
           backgroundColor={this.state.backgroundColor}
         />
         <Container style={styles.pokemonContainer}>
+          <PokeProfile
+            data={this.state.data}
+            speciesData={this.state.speciesData}
+          />
         </Container>
         <PokeTitle
           title="DAMAGE WHEN ATTACKED"
