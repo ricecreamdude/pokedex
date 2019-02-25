@@ -13,7 +13,6 @@ import PokeProfile from '../PokeProfile';
 
 import PokeTitle from './title';
 
-
 import getType from '../PokeType/getTypeData';
 
 class Pokemon extends React.Component {
@@ -34,6 +33,7 @@ class Pokemon extends React.Component {
   // Runs right after component mounts onto app.  Usually used to control
   // API requests. Returns a promise
   componentDidMount() {
+
     this.getBasicData(this.state.curPokemon);
   }
 
@@ -42,63 +42,53 @@ class Pokemon extends React.Component {
     const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
     fetch(url)
       .then(res => res.json())
-      .then(
-        result => {
-          this.getTypeData(result.types)
-          // Chains promise so getSpeciesData works async
-          return this.getSpeciesData(result.id, result);
-        },
-        error => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        },
-      );
+      .then( (json) => {
+        this.getTypeData(json.types)
+        // Chains promise so getSpeciesData works async
+        return this.getSpeciesData(json);
+      })
+      .catch(err => console.log(err));
   }
 
-  getSpeciesData(id, basicData){
-    fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`)
+  getSpeciesData(basicData){
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${basicData.id}/`
+    fetch(url)
       .then(res => res.json())
-      .then(
-        result => {
-          let typeData = this.getTypeData(basicData.types);
-          this.setState({
-            isLoaded: true,
-            speciesData: result,
-            data: basicData,
-            curPokemon: basicData.name,
-            typeData: typeData,
-            backgroundColor: typeData[0].color,
-            statsData: {
-              hp: basicData.stats[5],
-              atk: basicData.stats[4],
-              def: basicData.stats[3],
-              spd: basicData.stats[0],
-              spAtk: basicData.stats[2],
-              spDef: basicData.stats[1],
-            }
-          })
-        },
-        error => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        },
-      );
+      .then( result => {
+        let typeData = this.getTypeData(basicData.types);
+        this.setState({
+          isLoaded: true,
+          speciesData: result,
+          data: basicData,
+          curPokemon: basicData.name,
+          typeData: typeData,
+          backgroundColor: typeData[0].color,
+          statsData: {
+            hp: basicData.stats[5],
+            atk: basicData.stats[4],
+            def: basicData.stats[3],
+            spd: basicData.stats[0],
+            spAtk: basicData.stats[2],
+            spDef: basicData.stats[1],
+          }
+        })
+      }
+    );
   }
 
   // Uses Type fetching file to create type data array.  A pokemon's primary type
   // (type[0]) is used to determine color scheme of many components of the app
   // so we must typeData as part of application state
   getTypeData(typeArr){
-    let typeData = []
+    let typeData = [];
     // For some reason in pokemon with many types, primary type listed as 2nd
     // type in types array so we are assigning appropriately here
+
     if (typeArr[1]) {
       typeData[0] = getType(typeArr[1].type.name)
+      typeData[0].data = fetch(typeData[0].link).then(res => res.json());
       typeData[1] = getType(typeArr[0].type.name)
+      typeData[1].data = fetch(typeData[1].link).then(res => res.json());
     } else {
       typeData[0] = getType(typeArr[0].type.name)
     }
@@ -107,6 +97,7 @@ class Pokemon extends React.Component {
   }
 
   render() {
+
     const styles = {
       pokemonContainer: {
         margin: '15px 0px',
@@ -123,6 +114,7 @@ class Pokemon extends React.Component {
 
     console.log('Pokemon Data: Data:', this.state.data);
     console.log('Pokemon Data: Species Data:', this.state.speciesData);
+    console.log('Pokemon Data: Type Data:', this.state.typeData);    
 
 
     return (
@@ -153,11 +145,13 @@ class Pokemon extends React.Component {
             speciesData={this.state.speciesData}
           />
         </Container>
+
+        {/* Need to refactor code to integrate type API calls here */}
         <PokeTitle
           title="DAMAGE WHEN ATTACKED"
           backgroundColor={this.state.backgroundColor}
         />
-        <Container style={styles.pokemonContainer}>
+        <Container style={styles.pokemonContainer}> 
         </Container>
         <PokeTitle
           title="EVOLUTIONS"
@@ -171,7 +165,6 @@ class Pokemon extends React.Component {
         />
         <Container style={styles.pokemonContainer}>
         </Container>
-
       </div>
     );
   }
