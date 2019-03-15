@@ -26,20 +26,20 @@ class Pokemon extends React.Component {
       typeData: [],
       speciesData: [],
       backgroundColor: 'rgb(120, 200, 80)',
-      statsData: []
+      statsData: [],
     };
   }
 
   // Runs right after component mounts onto app.  Usually used to control
   // API requests. Returns a promise
   componentDidMount() {
-    this.executeAllPromises();
+    this.fetchPokemonData(this.state.curPokemon);
   }
 
-  async executeAllPromises() {
-    const data = await this.promiseGetBasicData(this.state.curPokemon);
+  async fetchPokemonData(name) {
+    const data = await this.promiseGetBasicData(name);
     const promises = [
-      this.promiseGetBasicData(this.state.curPokemon),
+      this.promiseGetBasicData(name),
       this.promiseGetSpeciesData(data.id),
       this.promiseGetTypeData(data.types),
     ];
@@ -63,8 +63,8 @@ class Pokemon extends React.Component {
           spd: basic.stats[0],
           spAtk: basic.stats[2],
           spDef: basic.stats[1],
-        }
-      })
+        },
+      });
     });
   }
 
@@ -72,35 +72,28 @@ class Pokemon extends React.Component {
     const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
     return fetch(url)
       .then(res => res.json())
-      .then( (json) => {
-        // Chains promise so getSpeciesData works async
-        return json;
-      })
       .catch(err => console.log(err));
   }
 
-  promiseGetSpeciesData(id){
-    const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`
+  promiseGetSpeciesData(id) {
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${id}/`;
     return fetch(url)
       .then(res => res.json())
-      .then(result => {
-        return result;
-      })
       .catch(e => {
         console.log('Error in getSpeciesData', e);
-      })
+      });
   }
 
-  promiseGetTypeData(typeArr){
-    let typeData = [];
+  promiseGetTypeData(typeArr) {
+    const typeData = [];
 
     if (typeArr[1]) {
-      typeData[0] = getType(typeArr[1].type.name)
+      typeData[0] = getType(typeArr[1].type.name);
       typeData[0].data = fetch(typeData[0].link).then(res => res.json());
-      typeData[1] = getType(typeArr[0].type.name)
+      typeData[1] = getType(typeArr[0].type.name);
       typeData[1].data = fetch(typeData[1].link).then(res => res.json());
     } else {
-      typeData[0] = getType(typeArr[0].type.name)
+      typeData[0] = getType(typeArr[0].type.name);
     }
 
     return typeData;
@@ -128,7 +121,7 @@ class Pokemon extends React.Component {
 
     return (
       <div>
-        <PokeSearch loadPokemon={this.promiseGetBasicData.bind(this)} />
+        <PokeSearch loadPokemon={this.fetchPokemonData.bind(this)} />
         <PokeTitle
           title={data.name.charAt(0).toUpperCase() + data.name.slice(1)}
           backgroundColor={this.state.backgroundColor}
@@ -160,20 +153,14 @@ class Pokemon extends React.Component {
           title="DAMAGE WHEN ATTACKED"
           backgroundColor={this.state.backgroundColor}
         />
-        <Container style={styles.pokemonContainer}> 
-        </Container>
+        <Container style={styles.pokemonContainer} />
         <PokeTitle
           title="EVOLUTIONS"
           backgroundColor={this.state.backgroundColor}
         />
-        <Container style={styles.pokemonContainer}>
-        </Container>
-        <PokeTitle
-          title="MOVES"
-          backgroundColor={this.state.backgroundColor}
-        />
-        <Container style={styles.pokemonContainer}>
-        </Container>
+        <Container style={styles.pokemonContainer} />
+        <PokeTitle title="MOVES" backgroundColor={this.state.backgroundColor} />
+        <Container style={styles.pokemonContainer} />
       </div>
     );
   }
